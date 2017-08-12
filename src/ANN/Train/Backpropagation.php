@@ -37,8 +37,6 @@ class Backpropagation implements Train
         $this->minimumError = $minimumError;
         $this->maxNumEpochs = $maxNumEpochs;
         $this->initialise();
-        $this->log = new Logger('training');
-        $this->log->pushHandler(new StreamHandler('training.log', Logger::INFO));
     }
     
     /**
@@ -78,22 +76,8 @@ class Backpropagation implements Train
                 $this->calculateGradients();
                 $this->calculateWeightUpdates();
                 $this->applyWeightChanges();
-                
-                $record2 = [
-                    'training_set' => $trainingSet,
-                    'actual_output' => $outputs
-                ];
-
-                $this->log->addInfo(null, $record2);
             }
             $globalError = $this->calculateGlobalError($trainingSet);
-            
-            $record = [
-                'epoch' => $this->numEpochs,
-                'error' => $globalError
-            ];
-
-            $this->log->addInfo(null, $record);
             $this->numEpochs++;
         } while ($globalError > $this->minimumError);
         
