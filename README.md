@@ -43,15 +43,12 @@ $outputs = $network->getOutputs();
 //Present [0,1] as network inputs and get the network output
 $network->activate([0, 1]);
 $outputs = $network->getOutputs();
-$this->assertTrue($outputs[0] > 0.9);
 
 //Present [1,0] as network inputs and get the network output 
 $network->activate([1, 0]);
 $outputs = $network->getOutputs();
-$this->assertTrue($outputs[0] > 0.9);
 
 //Present [1,1] as network inputs and get the network output
 $network->activate([1, 1]);
 $outputs = $network->getOutputs();
-$this->assertTrue($outputs[0] < 0.1);
 ```
