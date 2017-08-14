@@ -3,6 +3,7 @@
     "type": "library",
     "description": "Artificial neural network for PHP",
     "keywords": ["artificial neural network","backpropagation", "gradient descent", "sigmoid activation function"],
+    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Stephen O'Shea",
