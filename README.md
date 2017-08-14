@@ -16,6 +16,7 @@ $ composer install
 
 ```php
 //Create network with 2 input nodes, 2 hidden nodes, and 1 output node
+//and set activation function
 $network = new FeedForward([2, 2, 1], new Sigmoid());
 
 //Define learning rate and momentum parameters for backpropagation algorithm
