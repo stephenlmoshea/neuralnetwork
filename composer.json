@@ -1,5 +1,5 @@
 {
-    "name": "stephenlmoshea/neuralnetwork",
+    "name": "stephenlmoshea/ann",
     "type": "library",
     "description": "Artificial neural network for PHP",
     "keywords": ["artificial neural network","backpropagation", "gradient descent", "sigmoid activation function"],
