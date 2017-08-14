@@ -22,7 +22,6 @@ $network = new FeedForward([2, 2, 1], new Sigmoid());
 //Define learning rate and momentum parameters for backpropagation algorithm
 $ann = new Backpropagation($network, 0.7, 0.3);
 
-
 //Provide XOR training data
 $trainingSet = [
                     [0,0,0],
