@@ -1,4 +1,4 @@
-<?php namespace ANN;
+<?php namespace neuralnetwork;
 
 interface Activation
 {

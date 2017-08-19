@@ -1,6 +1,6 @@
-<?php namespace ANN\Activation;
+<?php namespace neuralnetwork\Activation;
 
-use ANN\Activation;
+use neuralnetwork\Activation;
 
 class Sigmoid implements Activation
 {

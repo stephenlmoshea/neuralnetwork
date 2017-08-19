@@ -1,8 +1,8 @@
-<?php namespace ANN\Network;
+<?php namespace neuralnetwork\Network;
 
-use ANN\Activation\Sigmoid;
-use ANN\Activation;
-use ANN\Network;
+use neuralnetwork\Activation\Sigmoid;
+use neuralnetwork\Activation;
+use neuralnetwork\Network;
 
 class FeedForward implements Network
 {

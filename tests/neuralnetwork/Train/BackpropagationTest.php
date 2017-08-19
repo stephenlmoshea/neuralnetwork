@@ -1,9 +1,9 @@
 <?php
-namespace ANN\Test;
+namespace neuralnetwork\Test;
 
-use ANN\Network\FeedForward;
-use ANN\Train\Backpropagation;
-use ANN\Activation\Sigmoid;
+use neuralnetwork\Network\FeedForward;
+use neuralnetwork\Train\Backpropagation;
+use neuralnetwork\Activation\Sigmoid;
 
 class BackpropagationTest extends \PHPUnit_Framework_TestCase
 {

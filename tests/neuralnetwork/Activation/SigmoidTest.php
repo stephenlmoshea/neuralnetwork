@@ -1,7 +1,7 @@
 <?php
-namespace ANN\Test;
+namespace neuralnetwork\Test;
 
-use ANN\Activation\Sigmoid;
+use neuralnetwork\Activation\Sigmoid;
 
 class SigmoidTest extends \PHPUnit_Framework_TestCase
 {    

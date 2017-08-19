@@ -1,8 +1,8 @@
 <?php
-namespace ANN\Test;
+namespace neuralnetwork\Test;
 
-use ANN\Network\FeedForward;
-use ANN\Activation\Sigmoid;
+use neuralnetwork\Network\FeedForward;
+use neuralnetwork\Activation\Sigmoid;
 
 class FeedForwardTest extends \PHPUnit_Framework_TestCase
 {

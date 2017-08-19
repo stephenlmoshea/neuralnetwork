@@ -1,9 +1,9 @@
-<?php namespace ANN\Train;
+<?php namespace neuralnetwork\Train;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
-use ANN\Network;
-use ANN\Train;
+use neuralnetwork\Network;
+use neuralnetwork\Train;
 
 class Backpropagation implements Train
 {

@@ -3,8 +3,8 @@
 <phpunit
     bootstrap="vendor/autoload.php" colors="true">
     <testsuites>
-        <testsuite name="ANN Test Suite">
-            <directory>./tests/ANN/</directory>
+        <testsuite name="Neural Network Test Suite">
+            <directory>./tests/neuralnetwork/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

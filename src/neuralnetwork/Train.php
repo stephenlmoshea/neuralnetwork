@@ -1,6 +1,6 @@
-<?php namespace ANN;
+<?php namespace neuralnetwork;
 
-use ANN\Network;
+use neuralnetwork\Network;
 
 interface Train
 {

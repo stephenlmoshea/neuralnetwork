@@ -1,9 +1,8 @@
 {
-    "name": "stephenlmoshea/ann",
+    "name": "stephenlmoshea/neuralnetwork",
     "type": "library",
     "description": "Artificial neural network for PHP",
     "keywords": ["artificial neural network","backpropagation", "gradient descent", "sigmoid activation function"],
-    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Stephen O'Shea",
@@ -18,11 +17,11 @@
         "phpunit/phpunit": "~4.0"
     },
     "autoload": {
-        "psr-4": {"ANN\\": "src/ANN"}
+        "psr-4": {"neuralnetwork\\": "src/neuralnetwork"}
     },
     "autoload-dev": {
         "psr-4": {
-            "ANN\\PHPUnit\\": "test/ANN/"
+            "neuralnetwork\\PHPUnit\\": "test/neuralnetwork/"
         }
     }
 }
