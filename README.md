@@ -8,13 +8,17 @@ You can provide a learning rate and momentum parameter.  The learning rate will 
 
 ## Installation
 ```bash
-$ git clone https://github.com/stephenlmoshea/neuralnetwork.git
-$ cd neuralnetwork
-$ composer install
+$  composer require stephenlmoshea/neuralnetwork:dev-master
 ```
 ## Example
 
 ```php
+require __DIR__ . '/vendor/autoload.php';
+
+use neuralnetwork\Network\FeedForward;
+use neuralnetwork\Activation\Sigmoid;
+use neuralnetwork\Train\Backpropagation;
+
 //Create network with 2 input nodes, 2 hidden nodes, and 1 output node
 //and set activation function
 $network = new FeedForward([2, 2, 1], new Sigmoid());
@@ -39,16 +43,20 @@ do {
 //Present [0,0] as network inputs and get the network output
 $network->activate([0, 0]);
 $outputs = $network->getOutputs();
+echo $outputs[0]."\n";
 
 //Present [0,1] as network inputs and get the network output
 $network->activate([0, 1]);
 $outputs = $network->getOutputs();
+echo $outputs[0]."\n";
 
 //Present [1,0] as network inputs and get the network output 
 $network->activate([1, 0]);
 $outputs = $network->getOutputs();
+echo $outputs[0]."\n";
 
 //Present [1,1] as network inputs and get the network output
 $network->activate([1, 1]);
 $outputs = $network->getOutputs();
+echo $outputs[0]."\n";
 ```
