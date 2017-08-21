@@ -11,7 +11,7 @@ You can provide a learning rate and momentum parameter.  The learning rate will 
 $  composer require stephenlmoshea/neuralnetwork:dev-master
 ```
 ## Example
-### Training XOR function on three layer neural network using sigmoid activation function and backpropagation
+### Training XOR function on three layer neural network with two inputs and on output
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
