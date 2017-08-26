@@ -2,7 +2,7 @@
     "name": "stephenlmoshea/neuralnetwork",
     "type": "library",
     "description": "Artificial neural network for PHP",
-    "keywords": ["artificial neural network","backpropagation", "gradient descent", "sigmoid activation function"],
+    "keywords": ["artificial neural network","backpropagation", "gradient descent", "sigmoid activation function", "hyperbolic tangent activation function"],
     "authors": [
         {
             "name": "Stephen O'Shea",
