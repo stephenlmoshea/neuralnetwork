@@ -4,6 +4,7 @@ namespace neuralnetwork\Test;
 use neuralnetwork\Network\FeedForward;
 use neuralnetwork\Train\Backpropagation;
 use neuralnetwork\Activation\Sigmoid;
+use neuralnetwork\Activation\HyperbolicTangent;
 
 class BackpropagationTest extends \PHPUnit_Framework_TestCase
 {
@@ -223,5 +224,149 @@ class BackpropagationTest extends \PHPUnit_Framework_TestCase
         $network->activate([1, 1, 0]);
         $output = $network->getOutputs();
         $this->assertTrue($output[0] < 0.1);
+    }
+    
+    /**
+     * Test it learns the AND function using hyperbolic tangent
+     */
+    public function testItLearnsANDFunctionUsingHyperbolicTangent()
+    {
+        $network = new FeedForward([2, 2, 1], new HyperbolicTangent());
+        $ann = new Backpropagation($network, 0.9, 0.3);
+        $trainingSet = [
+                            [-1,-1,1],
+                            [-1,1,-1],
+                            [1,-1,-1],
+                            [1,1,1]
+                        ];
+        do {
+            $ann->initialise();
+            $result = $ann->train($trainingSet);
+        } while (!$result);
+        
+        $network->activate([-1, -1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] > 0.9);
+        
+        
+        $network->activate([-1, 1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] < -0.9);
+        
+        $network->activate([1, -1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] < -0.9);
+        
+        $network->activate([1, 1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] > 0.9);
+    }
+    
+    /**
+     * Test it learns the XOR function with two hidden neurons
+     */
+    public function testItLearnsXORFunctionWithTwoHiddenUnitsUsingHyperbolicTangent()
+    {
+        $network = new FeedForward([2, 2, 1], new HyperbolicTangent());
+        $ann = new Backpropagation($network, 0.7, 0.3);
+        $trainingSet = [
+                            [-1,-1,-1],
+                            [-1,1,1],
+                            [1,-1,1],
+                            [1,1,-1]
+                        ];
+
+        do {
+            $ann->initialise();
+            $result = $ann->train($trainingSet);
+        } while (!$result);
+        
+        $network->activate([-1, -1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] < -0.9);
+        
+        $network->activate([-1, 1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] > 0.9);
+         
+        $network->activate([1, -1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] > 0.9);
+        
+        $network->activate([1, 1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] < -0.9);
+    }
+    
+    /**
+     * Test it learns the XOR function with three hidden neurons
+     */
+    public function testItLearnsXORFunctionWithThreeHiddenUnitsUsingHyperbolicTangent()
+    {
+        $network = new FeedForward([2, 3, 1], new HyperbolicTangent());
+        $ann = new Backpropagation($network, 0.7, 0.3);
+        $trainingSet = [
+                            [-1,-1,-1],
+                            [-1,1,1],
+                            [1,-1,1],
+                            [1,1,-1]
+                        ];
+
+        do {
+            $ann->initialise();
+            $result = $ann->train($trainingSet);
+        } while (!$result);
+        
+        $network->activate([-1, -1]);
+        $output = $network->getOutputs();
+        $this->assertTrue($output[0] < -0.9);
+        
+        $network->activate([-1, 1]);
+        $output = $network->getOutputs();
+        $this->assertTrue($output[0] > 0.9);
+         
+        $network->activate([1, -1]);
+        $output = $network->getOutputs();
+        $this->assertTrue($output[0] > 0.9);
+        
+        $network->activate([1, 1]);
+        $output = $network->getOutputs();
+        $this->assertTrue($output[0] < -0.9);
+    }
+    
+    /**
+     * Test it learns the XOR function with four hidden neurons
+     */
+    public function testItLearnsXORFunctionWithFourHiddenUnitsUsingHyperbolicTangent()
+    {
+        $network = new FeedForward([2, 4, 1], new HyperbolicTangent());
+        $ann = new Backpropagation($network, 0.7, 0.3);
+        $trainingSet = [
+                            [-1,-1,-1],
+                            [-1,1,1],
+                            [1,-1,1],
+                            [1,1,-1]
+                        ];
+
+        do {
+            $ann->initialise();
+            $result = $ann->train($trainingSet);
+        } while (!$result);
+        
+        $network->activate([-1, -1]);
+        $output = $network->getOutputs();
+        $this->assertTrue($output[0] < -0.9);
+        
+        $network->activate([-1, 1]);
+        $output = $network->getOutputs();
+        $this->assertTrue($output[0] > 0.9);
+         
+        $network->activate([1, -1]);
+        $output = $network->getOutputs();
+        $this->assertTrue($output[0] > 0.9);
+        
+        $network->activate([1, 1]);
+        $output = $network->getOutputs();
+        $this->assertTrue($output[0] < -0.9);
     }
 }

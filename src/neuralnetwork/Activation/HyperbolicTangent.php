@@ -11,6 +11,6 @@ class HyperbolicTangent implements Activation
     
     public function getDerivative($net)
     {
-        return $this->getActivation($net) * (1 - $this->getActivation($net));
+        return 1 - ($this->getActivation($net) * $this->getActivation($net));
     }
 }
