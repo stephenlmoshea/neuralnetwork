@@ -69,6 +69,7 @@ class Backpropagation implements Train
                 return false;
             }
             
+            $sumGlobalError=0;
             foreach ($trainingSets as $trainingSet) {
                 $this->network->activate($trainingSet);
                 $outputs = $this->network->getOutputs();
@@ -76,8 +77,13 @@ class Backpropagation implements Train
                 $this->calculateGradients();
                 $this->calculateWeightUpdates();
                 $this->applyWeightChanges();
+                $sumGlobalError += $this->calculateGlobalError($trainingSet);
             }
-            $globalError = $this->calculateGlobalError($trainingSet);
+            
+            $globalError = $sumGlobalError/count($trainingSets);
+            
+            var_dump($globalError);
+            
             $this->numEpochs++;
         } while ($globalError > $this->minimumError);
         

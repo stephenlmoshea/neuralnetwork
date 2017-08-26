@@ -13,7 +13,7 @@ class BackpropagationTest extends \PHPUnit_Framework_TestCase
     public function testItLearnsORFunction()
     {
         $network = new FeedForward([2, 2, 1], new Sigmoid());
-        $ann = new Backpropagation($network, 0.7, 0.3, 0.0001);
+        $ann = new Backpropagation($network, 0.7, 0.3, 0.001);
         $trainingSet = [
                             [0,0,0],
                             [0,1,1],
@@ -191,7 +191,7 @@ class BackpropagationTest extends \PHPUnit_Framework_TestCase
     public function testItLearnsXORFunctionWithThreeInputNodes()
     {
         $network = new FeedForward([3, 4, 1], new Sigmoid());
-        $ann = new Backpropagation($network, 0.7, 0.3, 0.005, 5000);
+        $ann = new Backpropagation($network, 0.7, 0.3, 0.0005, 5000);
         $trainingSet = [
                             [0,0,0,0],
                             [0,0,1,1],
