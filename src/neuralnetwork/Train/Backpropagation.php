@@ -69,7 +69,7 @@ class Backpropagation implements Train
                 return false;
             }
             
-            $sumGlobalError=0;
+            $sumNetworkError=0;
             foreach ($trainingSets as $trainingSet) {
                 $this->network->activate($trainingSet);
                 $outputs = $this->network->getOutputs();
@@ -77,12 +77,10 @@ class Backpropagation implements Train
                 $this->calculateGradients();
                 $this->calculateWeightUpdates();
                 $this->applyWeightChanges();
-                $sumGlobalError += $this->calculateGlobalError($trainingSet);
+                $sumNetworkError += $this->calculateNetworkError($trainingSet);
             }
             
-            $globalError = $sumGlobalError/count($trainingSets);
-            
-            var_dump($globalError);
+            $globalError = $sumNetworkError/count($trainingSets);
             
             $this->numEpochs++;
         } while ($globalError > $this->minimumError);
@@ -224,12 +222,12 @@ class Backpropagation implements Train
     }
     
     /**
-     * Calculate global error
+     * Calculate network error
      * 
      * @param array $trainingSet
      * @return float
      */
-    protected function calculateGlobalError(array $trainingSet)
+    protected function calculateNetworkError(array $trainingSet)
     {
         $networkLayers = $this->network->getNetworkLayers();
         $idealOutputs = array_slice($trainingSet, -1 * $networkLayers[count($networkLayers) - 1]['num_nodes']);
