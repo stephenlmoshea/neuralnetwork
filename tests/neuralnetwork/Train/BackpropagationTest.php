@@ -227,12 +227,47 @@ class BackpropagationTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * Test it learns the OR function
+     */
+    public function testItLearnsORFunctionUsingHyperbolicTangent()
+    {
+        $network = new FeedForward([2, 2, 1], new HyperbolicTangent());
+        $ann = new Backpropagation($network, 0.7, 0.3, 0.001);
+        $trainingSet = [
+                            [-1,-1,-1],
+                            [-1,1,1],
+                            [1,-1,1],
+                            [1,1,1]
+                        ];
+        do {
+            $ann->initialise();
+            $result = $ann->train($trainingSet);
+        } while (!$result);
+        
+        $network->activate([-1, -1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] < -0.9);
+        
+        $network->activate([-1, 1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] > 0.9);
+         
+        $network->activate([1, -1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] > 0.9);
+        
+        $network->activate([1, 1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] > 0.9);
+    }
+    
+    /**
      * Test it learns the AND function using hyperbolic tangent
      */
     public function testItLearnsANDFunctionUsingHyperbolicTangent()
     {
         $network = new FeedForward([2, 2, 1], new HyperbolicTangent());
-        $ann = new Backpropagation($network, 0.9, 0.3);
+        $ann = new Backpropagation($network, 0.9, 0.3, 0.001);
         $trainingSet = [
                             [-1,-1,1],
                             [-1,1,-1],
@@ -268,7 +303,7 @@ class BackpropagationTest extends \PHPUnit_Framework_TestCase
     public function testItLearnsXORFunctionWithTwoHiddenUnitsUsingHyperbolicTangent()
     {
         $network = new FeedForward([2, 2, 1], new HyperbolicTangent());
-        $ann = new Backpropagation($network, 0.7, 0.3);
+        $ann = new Backpropagation($network, 0.7, 0.3, 0.001);
         $trainingSet = [
                             [-1,-1,-1],
                             [-1,1,1],
