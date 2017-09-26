@@ -6,6 +6,8 @@ The library allows you to build and train multi-layer neural networks. You first
 
 You can provide a learning rate and momentum parameter.  The learning rate will affect the speed at which the neural network converges to an optimal solution. The momentum parameter will help gradient descent to avoid converging to a non optimal solution on the error curve called local minima.  The correct size for the momentum parameter will help to find the global minima but too large a value will prevent the neural network from ever converging to a solution.
 
+Trained neural networks can be saved to file and loaded back for later activation.
+
 ## Installation
 ```bash
 $  composer require stephenlmoshea/neuralnetwork:dev-master
