@@ -280,4 +280,27 @@ class FeedForward implements Network
             }
         }
     }
+
+    /**
+     * Saves state of neural network to file
+     * @param $filename
+     */
+    public function save($filename)
+    {
+        $serializedNetwork = serialize($this);
+        file_put_contents($filename, $serializedNetwork);
+    }
+
+    /**
+     * Loads state of network from file
+     * @param $filename
+     * @return FeedForward
+     */
+    public static function load($filename)
+    {
+        $serializedNetwork = file_get_contents($filename);
+        $network = unserialize($serializedNetwork);
+
+        return $network;
+    }
 }

@@ -404,4 +404,44 @@ class BackpropagationTest extends \PHPUnit_Framework_TestCase
         $output = $network->getOutputs();
         $this->assertTrue($output[0] < -0.9);
     }
+
+    /**
+     * Test it learns the XOR function with two hidden neurons
+     */
+    public function testItSavesAndLoadsStateFromFile()
+    {
+        $network = new FeedForward([2, 2, 1], new Sigmoid());
+        $ann = new Backpropagation($network, 0.7, 0.3);
+        $trainingSet = [
+            [0,0,0],
+            [0,1,1],
+            [1,0,1],
+            [1,1,0]
+        ];
+
+        do {
+            $ann->initialise();
+            $result = $ann->train($trainingSet);
+        } while (!$result);
+
+        $network->save('./network.txt');
+
+        $network2 = FeedForward::load('./network.txt');
+
+        $network2->activate([0, 0]);
+        $outputs = $network2->getOutputs();
+        $this->assertTrue($outputs[0] < 0.1);
+
+        $network2->activate([0, 1]);
+        $outputs = $network2->getOutputs();
+        $this->assertTrue($outputs[0] > 0.9);
+
+        $network2->activate([1, 0]);
+        $outputs = $network2->getOutputs();
+        $this->assertTrue($outputs[0] > 0.9);
+
+        $network2->activate([1, 1]);
+        $outputs = $network2->getOutputs();
+        $this->assertTrue($outputs[0] < 0.1);
+    }
 }
