@@ -60,3 +60,53 @@ $network->activate([1, 1]);
 $outputs = $network->getOutputs();
 echo $outputs[0]."\n";
 ```
+
+### Training XOR function on three layer neural network using Hyperbolic Tangent
+```php
+require __DIR__ . '/vendor/autoload.php';
+
+use neuralnetwork\Network\FeedForward;
+use neuralnetwork\Activation\HyperbolicTangent;
+use neuralnetwork\Train\Backpropagation;
+
+//Create network with 2 input nodes, 2 hidden nodes, and 1 output node
+//and set activation function
+$network = new FeedForward([2, 2, 1], new HyperbolicTangent());
+
+//Define learning rate and momentum parameters for backpropagation algorithm
+$ann = new Backpropagation($network, 0.7, 0.3, 0.001);
+
+//Provide XOR training data
+$trainingSet = [
+                    [-1,-1,-1],
+                    [-1,1,1],
+                    [1,-1,1],
+                    [1,1,-1]
+                ];
+
+//Keep training the neural network until it converges
+do {
+    $ann->initialise();
+    $result = $ann->train($trainingSet);
+} while (!$result);
+
+//Present [-1,-1] as network inputs and get the network output
+$network->activate([-1, -1]);
+$outputs = $network->getOutputs();
+echo $outputs[0]."\n";
+
+//Present [-1,1] as network inputs and get the network output
+$network->activate([-1, 1]);
+$outputs = $network->getOutputs();
+echo $outputs[0]."\n";
+
+//Present [1,-1] as network inputs and get the network output 
+$network->activate([1, -1]);
+$outputs = $network->getOutputs();
+echo $outputs[0]."\n";
+
+//Present [1,1] as network inputs and get the network output
+$network->activate([1, 1]);
+$outputs = $network->getOutputs();
+echo $outputs[0]."\n";
+```
