@@ -12,7 +12,7 @@ Trained neural networks can be saved to file and loaded back for later activatio
 ```bash
 $  composer require stephenlmoshea/neuralnetwork:dev-master
 ```
-## Example
+## Examples
 ### Training XOR function on three layer neural network with two inputs and one output
 ```php
 require __DIR__ . '/vendor/autoload.php';
@@ -111,4 +111,68 @@ echo $outputs[0]."\n";
 $network->activate([1, 1]);
 $outputs = $network->getOutputs();
 echo $outputs[0]."\n";
+```
+
+### Saving trained neural network to file
+```php
+require __DIR__ . '/vendor/autoload.php';
+
+use neuralnetwork\Network\FeedForward;
+use neuralnetwork\Activation\Sigmoid;
+use neuralnetwork\Train\Backpropagation;
+
+//Create network with 2 input nodes, 2 hidden nodes, and 1 output node
+//and set activation function
+$network = new FeedForward([2, 2, 1], new Sigmoid());
+
+//Define learning rate and momentum parameters for backpropagation algorithm
+$ann = new Backpropagation($network, 0.7, 0.3);
+
+//Provide XOR training data
+$trainingSet = [
+                    [0,0,0],
+                    [0,1,1],
+                    [1,0,1],
+                    [1,1,0]
+                ];
+
+//Keep training the neural network until it converges
+do {
+    $ann->initialise();
+    $result = $ann->train($trainingSet);
+} while (!$result);
+
+$network->save('./network.txt');
+```
+
+### Load trained neural network from file
+```php
+require __DIR__ . '/vendor/autoload.php';
+
+use neuralnetwork\Network\FeedForward;
+use neuralnetwork\Activation\Sigmoid;
+use neuralnetwork\Train\Backpropagation;
+
+$network->load('./network.txt');
+
+//Present [0,0] as network inputs and get the network output
+$network->activate([0, 0]);
+$outputs = $network->getOutputs();
+echo $outputs[0]."\n";
+
+//Present [0,1] as network inputs and get the network output
+$network->activate([0, 1]);
+$outputs = $network->getOutputs();
+echo $outputs[0]."\n";
+
+//Present [1,0] as network inputs and get the network output 
+$network->activate([1, 0]);
+$outputs = $network->getOutputs();
+echo $outputs[0]."\n";
+
+//Present [1,1] as network inputs and get the network output
+$network->activate([1, 1]);
+$outputs = $network->getOutputs();
+echo $outputs[0]."\n";
+
 ```
