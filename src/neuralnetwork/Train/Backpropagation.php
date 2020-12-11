@@ -64,6 +64,10 @@ class Backpropagation implements Train
     public function train(array $trainingSets)
     {
         $this->numEpochs=1;
+        $log = new Logger('debug');
+
+        $log->pushHandler(new StreamHandler('./training.log', Logger::INFO));
+
         do {
             if ($this->numEpochs > $this->maxNumEpochs) {
                 return false;
@@ -78,6 +82,9 @@ class Backpropagation implements Train
                 $this->calculateWeightUpdates();
                 $this->applyWeightChanges();
                 $sumNetworkError += $this->calculateNetworkError($trainingSet);
+
+                // add records to the log
+                $log->info('Epoch:'.$this->numEpochs,['inputs' => $trainingSet, 'outputs' => $outputs, 'error' => $sumNetworkError]);
             }
             
             $globalError = $sumNetworkError/count($trainingSets);
