@@ -42,6 +42,45 @@ class BackpropagationTest extends \PHPUnit_Framework_TestCase
         $outputs = $network->getOutputs();
         $this->assertTrue($outputs[0] > 0.9);
     }
+
+    /**
+     * Test it learns the OR function with two outputs
+     */
+    public function testItLearnsORFunctionWithTwoOutputs()
+    {
+        $network = new FeedForward([2, 2, 2], new Sigmoid());
+        $ann = new Backpropagation($network, 0.7, 0.3, 0.001);
+        $trainingSet = [
+                            [0,0,0,0],
+                            [0,1,0,1],
+                            [1,0,1,0],
+                            [1,1,1,1]
+                        ];
+        do {
+            $ann->initialise();
+            $result = $ann->train($trainingSet);
+        } while (!$result);
+        
+        $network->activate([0, 0]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] < 0.1);
+        $this->assertTrue($outputs[1] < 0.1);
+        
+        $network->activate([0, 1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] < 0.1);
+        $this->assertTrue($outputs[1] > 0.9);
+         
+        $network->activate([1, 0]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] > 0.9);
+        $this->assertTrue($outputs[1] < 0.1);
+        
+        $network->activate([1, 1]);
+        $outputs = $network->getOutputs();
+        $this->assertTrue($outputs[0] > 0.9);
+        $this->assertTrue($outputs[1] > 0.9);
+    }
     
     /**
      * Test it learns the AND function
