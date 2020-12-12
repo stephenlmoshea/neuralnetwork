@@ -88,6 +88,9 @@ class Backpropagation implements Train
             }
             
             $globalError = $sumNetworkError/count($trainingSets);
+
+            $log->info('Num Epochs: '.$this->numEpochs);
+            $log->info('Global Error: '.$globalError);
             
             $this->numEpochs++;
         } while ($globalError > $this->minimumError);
