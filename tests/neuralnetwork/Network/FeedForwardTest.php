@@ -66,6 +66,20 @@ class FeedForwardTest extends \PHPUnit_Framework_TestCase
         $output = $this->network->getOutputs()[0];
         $this->assertEquals(round($output, 2), 0.49);
     }
+
+    public function testActivatingNetworkWithValidInputsProducesValidOutputs()
+    {
+        $this->nodePerLayer = [2, 2, 2];
+        $this->layers = $this->getLayersWithTwoOutputs();
+        $this->activation = new Sigmoid();
+        $this->network = new FeedForward($this->nodePerLayer, new Sigmoid());
+
+        $this->initialiseNetworkWithTwoOutputs();
+        $this->network->activate([0,1]);
+        $outputs = $this->network->getOutputs();
+        $this->assertEquals(round($outputs[0], 3), 0.505);
+        $this->assertEquals(round($outputs[1], 3), 0.499);
+    }
     
     public function testGetValue(){
         $this->initialiseNetwork();
@@ -119,12 +133,36 @@ class FeedForwardTest extends \PHPUnit_Framework_TestCase
         
         return $weights; 
     }
+
+    protected function getWeightsForTwoOutputs()
+    {
+        $weights[0][2] = 0.01;
+        $weights[0][3] = -0.01;
+        $weights[1][2] = 0.04;
+        $weights[1][3] = 0.04;
+        $weights[2][4] = 0;
+        $weights[2][5] = -0.02;
+        $weights[3][4] = -0.02;
+        $weights[3][5] = 0.03;
+        
+        return $weights; 
+    }
     
     protected function getBiasWeights()
     {
         $biasWeights[0][2] = 0.04;
         $biasWeights[0][3] = 0.02;
         $biasWeights[1][4] = -0.02;
+        
+        return $biasWeights;
+    }
+
+    protected function getBiasWeightsForTwoOutputs()
+    {
+        $biasWeights[0][2] = -0.03;
+        $biasWeights[0][3] = -0.03;
+        $biasWeights[1][4] = 0.03;
+        $biasWeights[1][5] = -0.01;
         
         return $biasWeights;
     }
@@ -149,6 +187,27 @@ class FeedForwardTest extends \PHPUnit_Framework_TestCase
                     ]
                 ];
     }
+
+    protected function getLayersWithTwoOutputs()
+    {
+        return [
+                    [
+                        'num_nodes' => 2,
+                        'start_node' => 0,
+                        'end_node' => 1
+                    ],
+                    [
+                        'num_nodes' => 2,
+                        'start_node' => 2,
+                        'end_node' => 3
+                    ],
+                    [
+                        'num_nodes' => 2,
+                        'start_node' => 4,
+                        'end_node' => 5
+                    ]
+                ];
+    }
     
     protected function initialiseNetwork()
     {
@@ -156,6 +215,21 @@ class FeedForwardTest extends \PHPUnit_Framework_TestCase
         
         $weights = $this->getWeights();
         $biasWeights = $this->getBiasWeights();
+
+        $this->network->setWeights($weights);
+        $this->network->setBiasWeights($biasWeights);
+        return [
+            'weights' => $weights,
+            'biasWeights' => $biasWeights
+        ];
+    }
+
+    protected function initialiseNetworkWithTwoOutputs()
+    {
+        $this->network->initialise();
+        
+        $weights = $this->getWeightsForTwoOutputs();
+        $biasWeights = $this->getBiasWeightsForTwoOutputs();
 
         $this->network->setWeights($weights);
         $this->network->setBiasWeights($biasWeights);
