@@ -171,13 +171,6 @@ class BackpropagationTest extends \PHPUnit_Framework_TestCase
             $ann->initialise();
             $result = $ann->train($trainingSet);
         } while (!$result);
-
-        $network->activate([0,1]);
-
-        // var_dump($network->getWeights());
-        // var_dump($network->getBiasWeights());
-        // var_dump($network->getOutputs());
-        // die();
         
         $network->activate([0, 0]);
         $outputs = $network->getOutputs();
