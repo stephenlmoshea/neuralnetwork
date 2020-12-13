@@ -212,7 +212,7 @@ class Backpropagation implements Train
     /**
      * Apply weight changes to neural network
      */
-    protected function applyWeightChanges()
+    public function applyWeightChanges()
     {
         $networkLayers = $this->network->getNetworkLayers();
         foreach ($networkLayers as $num => $layer) {

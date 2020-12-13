@@ -64,6 +64,43 @@ class BackpropagationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($ann->getBiasGradients(), $expectedBiasGradients);
     }
 
+    public function testCalculateWeightUpdatesWithTwoOutputs()
+    {
+        $nodePerLayer = [2, 2, 2];
+        $activation = new Sigmoid();
+        $network = new FeedForward($nodePerLayer, $activation);
+        $ann = new Backpropagation($network, 0.7, 0.3,0.005,1);
+        $ann->initialise();
+        $this->initialiseNetworkWithTwoOutputs($network);
+
+        $trainingSet = [0,0,0,0];
+
+        $network->activate($trainingSet);
+        $ann->calculateNodeDeltas($trainingSet);
+        $ann->calculateGradients();
+        $ann->calculateWeightUpdates();
+
+        $expectedWeightUpdates = [];
+        $expectedWeightUpdates[0][2] = 0;
+        $expectedWeightUpdates[0][3] = 0;
+        $expectedWeightUpdates[1][2] = 0;
+        $expectedWeightUpdates[1][3] = 0;
+        $expectedWeightUpdates[2][4] = -0.04352353628111;
+        $expectedWeightUpdates[2][5] = -0.042984172283667;
+        $expectedWeightUpdates[3][4] = -0.04352353628111;
+        $expectedWeightUpdates[3][5] = -0.042984172283667;
+
+        $this->assertEquals($ann->getWeightUpdates(), $expectedWeightUpdates);
+
+        $expectedBiasWeightUpdates = [];
+        $expectedBiasWeightUpdates[0][2] = 0.00043628886515079;
+        $expectedBiasWeightUpdates[0][3] = -0.00021266989406864;
+        $expectedBiasWeightUpdates[1][4] = -0.088372561575671;
+        $expectedBiasWeightUpdates[1][5] = -0.08727740750161;
+
+        $this->assertEquals($ann->getBiasWeightUpdates(), $expectedBiasWeightUpdates);
+    }
+
     protected function initialiseNetworkWithTwoOutputs($network)
     {
         $network->initialise();
