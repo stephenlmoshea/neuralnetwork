@@ -101,6 +101,36 @@ class BackpropagationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($ann->getBiasWeightUpdates(), $expectedBiasWeightUpdates);
     }
 
+    public function testApplyWeightChangesWithTwoOutputs()
+    {
+        $nodePerLayer = [2, 2, 2];
+        $activation = new Sigmoid();
+        $network = new FeedForward($nodePerLayer, $activation);
+        $ann = new Backpropagation($network, 0.7, 0.3,0.005,1);
+        $ann->initialise();
+        $this->initialiseNetworkWithTwoOutputs($network);
+
+        $trainingSet = [0,0,0,0];
+
+        $network->activate($trainingSet);
+        $ann->calculateNodeDeltas($trainingSet);
+        $ann->calculateGradients();
+        $ann->calculateWeightUpdates();
+
+        $expectedWeights = [];
+        $expectedWeights[0][2] = 0.01;
+        $expectedWeights[0][3] = -0.01;
+        $expectedWeights[1][2] = 0.04;
+        $expectedWeights[1][3] = 0.04;
+        $expectedWeights[2][4] = 0;
+        $expectedWeights[2][5] = -0.02;
+        $expectedWeights[3][4] = -0.02;
+        $expectedWeights[3][5] = 0.03;
+
+        $this->assertEquals($network->getWeights(), $expectedWeights);
+
+    }
+
     protected function initialiseNetworkWithTwoOutputs($network)
     {
         $network->initialise();
