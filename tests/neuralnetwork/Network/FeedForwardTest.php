@@ -1,12 +1,13 @@
 <?php
 namespace neuralnetwork\Test;
 
+use neuralnetwork\Test\BaseTest;
+use neuralnetwork\Activation\Sigmoid;
 use neuralnetwork\Network\FeedForward;
 use neuralnetwork\Train\Backpropagation;
-use neuralnetwork\Activation\Sigmoid;
 use neuralnetwork\Activation\HyperbolicTangent;
 
-class FeedForwardTest extends \PHPUnit_Framework_TestCase
+class FeedForwardTest extends BaseTest
 {
     protected $network;
     protected $nodePerLayer;
@@ -71,26 +72,26 @@ class FeedForwardTest extends \PHPUnit_Framework_TestCase
 
     public function testActivatingNetworkWithValidInputsProducesValidOutputs()
     {
-        $this->nodePerLayer = [2, 2, 2];
-        $this->layers = $this->getLayersWithTwoOutputs();
-        $this->activation = new Sigmoid();
-        $this->network = new FeedForward($this->nodePerLayer, new Sigmoid());
+        $nodePerLayer = [2, 2, 2];
+        $layers = $this->getLayersWithTwoOutputs();
+        $activation = new Sigmoid();
+        $network = new FeedForward($nodePerLayer, $activation);
 
-        $this->initialiseNetworkWithTwoOutputs();
-        $this->network->activate([0,1]);
-        $outputs = $this->network->getOutputs();
+        $this->initialiseNetworkWithTwoOutputs($network);
+        $network->activate([0,1]);
+        $outputs = $network->getOutputs();
         $this->assertEquals(round($outputs[0], 3), 0.505);
         $this->assertEquals(round($outputs[1], 3), 0.499);
     }
 
     public function testItLearnsWeightsAndOutputsForXORFunctionWithTwoOutputs()
     {
-        $this->nodePerLayer = [2, 2, 2];
-        $this->layers = $this->getLayersWithTwoOutputs();
-        $this->activation = new Sigmoid();
-        $this->network = new FeedForward($this->nodePerLayer, new Sigmoid());
-        $ann = new Backpropagation($this->network, 0.7, 0.3);
-        $this->initialiseNetworkWithTwoOutputs();
+        $nodePerLayer = [2, 2, 2];
+        $layers = $this->getLayersWithTwoOutputs();
+        $activation = new Sigmoid();
+        $network = new FeedForward($nodePerLayer, $activation);
+        $ann = new Backpropagation($network, 0.7, 0.3);
+        $this->initialiseNetworkWithTwoOutputs($network);
 
         // $this->network->activate([0,1]);
 
@@ -121,26 +122,26 @@ class FeedForwardTest extends \PHPUnit_Framework_TestCase
         // var_dump($this->network->getOutputs());
         // die();
 
-        $this->network->activate([0, 0]);
-        $outputs = $this->network->getOutputs();
+        $network->activate([0, 0]);
+        $outputs = $network->getOutputs();
         
         $this->assertTrue((string)$outputs[0] == (string)0.073974751048076);
         $this->assertTrue((string)$outputs[1] == (string)0.076405873198382);
         
-        $this->network->activate([0, 1]);
-        $outputs = $this->network->getOutputs();
+        $network->activate([0, 1]);
+        $outputs = $network->getOutputs();
         
         $this->assertTrue((string)$outputs[0] == (string)0.0011872968318554);
         $this->assertTrue((string)$outputs[1] == (string)0.90067060908902);
 
-        $this->network->activate([1, 0]);
-        $outputs = $this->network->getOutputs();
+        $network->activate([1, 0]);
+        $outputs = $network->getOutputs();
         
         $this->assertTrue((string)$outputs[0] == (string)0.90222312526496);
         $this->assertTrue((string)$outputs[1] == (string)0.00080085411873496);
 
-        $this->network->activate([1, 1]);
-        $outputs = $this->network->getOutputs();
+        $network->activate([1, 1]);
+        $outputs = $network->getOutputs();
         
         $this->assertTrue((string)$outputs[0] == (string)0.063898658496818);
         $this->assertTrue((string)$outputs[1] == (string)0.06729508546056);
@@ -164,7 +165,7 @@ class FeedForwardTest extends \PHPUnit_Framework_TestCase
             ],
          ];
  
-         $this->assertEquals($expectedWeights, $this->network->getWeights());
+         $this->assertEquals($expectedWeights, $network->getWeights());
  
          $expectedBiasWeights = [
              '0' => [
@@ -177,7 +178,7 @@ class FeedForwardTest extends \PHPUnit_Framework_TestCase
              ]
           ];
   
-         $this->assertEquals($expectedBiasWeights, $this->network->getBiasWeights());
+         $this->assertEquals($expectedBiasWeights, $network->getBiasWeights());
     }
     
     public function testGetValue(){
@@ -307,28 +308,13 @@ class FeedForwardTest extends \PHPUnit_Framework_TestCase
                     ]
                 ];
     }
-    
+
     protected function initialiseNetwork()
     {
         $this->network->initialise();
         
         $weights = $this->getWeights();
         $biasWeights = $this->getBiasWeights();
-
-        $this->network->setWeights($weights);
-        $this->network->setBiasWeights($biasWeights);
-        return [
-            'weights' => $weights,
-            'biasWeights' => $biasWeights
-        ];
-    }
-
-    protected function initialiseNetworkWithTwoOutputs()
-    {
-        $this->network->initialise();
-        
-        $weights = $this->getWeightsForTwoOutputs();
-        $biasWeights = $this->getBiasWeightsForTwoOutputs();
 
         $this->network->setWeights($weights);
         $this->network->setBiasWeights($biasWeights);
