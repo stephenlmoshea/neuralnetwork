@@ -110,7 +110,7 @@ class FeedForwardTest extends \PHPUnit_Framework_TestCase
             $result = $ann->train($trainingSet);
         } while (!$result);
 
-        $this->network->activate([1,1]);
+        // $this->network->activate([1,1]);
 
         // var_dump('--------After Training-------');
         // var_dump('Weights:');
