@@ -135,7 +135,7 @@ class Backpropagation implements Train
      * 
      * @param array $trainingSet
      */
-    protected function calculateNodeDeltas(array $trainingSet)
+    public function calculateNodeDeltas(array $trainingSet)
     {
         $networkLayers = $this->network->getNetworkLayers();
         $idealOutputs = array_slice($trainingSet, -1 * $networkLayers[count($networkLayers) - 1]['num_nodes']);
@@ -167,7 +167,7 @@ class Backpropagation implements Train
     /**
      * Calculate gradients for bias and non bias weights
      */
-    protected function calculateGradients()
+    public function calculateGradients()
     {
         $networkLayers = $this->network->getNetworkLayers();
         foreach ($networkLayers as $num => $layer) {
@@ -190,7 +190,7 @@ class Backpropagation implements Train
      * Calculate weight updates using gradients and momentum
      * for bias and non bias weights
      */
-    protected function calculateWeightUpdates()
+    public function calculateWeightUpdates()
     {
         $networkLayers = $this->network->getNetworkLayers();
         foreach ($networkLayers as $num => $layer) {
@@ -253,5 +253,30 @@ class Backpropagation implements Train
         }
         $globalError = (1 / $numNodes) * $sum;
         return $globalError;
+    }
+
+    public function getNodeDeltas()
+    {
+        return $this->nodeDeltas;
+    }
+
+    public function getGradients()
+    {
+        return $this->gradients;
+    }
+
+    public function getBiasGradients()
+    {
+        return $this->biasGradients;
+    }
+
+    public function getWeightUpdates()
+    {
+        return $this->weightUpdates;
+    }
+
+    public function getBiasWeightUpdates()
+    {
+        return $this->biasWeightUpdates;
     }
 }
