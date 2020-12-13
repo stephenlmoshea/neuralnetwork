@@ -237,7 +237,7 @@ class Backpropagation implements Train
      * @param array $trainingSet
      * @return float
      */
-    protected function calculateNetworkError(array $trainingSet)
+    public function calculateNetworkError(array $trainingSet)
     {
         $networkLayers = $this->network->getNetworkLayers();
         $idealOutputs = array_slice($trainingSet, -1 * $networkLayers[count($networkLayers) - 1]['num_nodes']);
