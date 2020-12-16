@@ -158,6 +158,84 @@ class BackpropagationTest extends BaseTest
         $this->assertEquals((string)$ann->calculateNetworkError($trainingSet), (string)0.2518977826281);
     }
 
+    public function testItLearnsWeightsAndOutputsForXORFunctionWithTwoOutputs()
+    {
+        $nodePerLayer = [2, 2, 2];
+        $activation = new Sigmoid();
+        $network = new FeedForward($nodePerLayer, $activation);
+        $ann = new Backpropagation($network, 0.7, 0.3, 0.005,1);
+        $this->initialiseNetworkWithTwoOutputs($network);
+
+        $trainingSet = [
+                            [0,0,0,0],
+                            [0,1,0,1],
+                            [1,0,1,0],
+                            [1,1,0,0]
+                        ];
+
+        do {
+            $result = $ann->train($trainingSet);
+        } while (!$result);
+
+        $network->activate([0, 0]);
+        $outputs = $network->getOutputs();
+        
+        $this->assertTrue((string)$outputs[0] == (string)0.073974751048076);
+        $this->assertTrue((string)$outputs[1] == (string)0.076405873198382);
+        
+        $network->activate([0, 1]);
+        $outputs = $network->getOutputs();
+        
+        $this->assertTrue((string)$outputs[0] == (string)0.0011872968318554);
+        $this->assertTrue((string)$outputs[1] == (string)0.90067060908902);
+
+        $network->activate([1, 0]);
+        $outputs = $network->getOutputs();
+        
+        $this->assertTrue((string)$outputs[0] == (string)0.90222312526496);
+        $this->assertTrue((string)$outputs[1] == (string)0.00080085411873496);
+
+        $network->activate([1, 1]);
+        $outputs = $network->getOutputs();
+        
+        $this->assertTrue((string)$outputs[0] == (string)0.063898658496818);
+        $this->assertTrue((string)$outputs[1] == (string)0.06729508546056);
+ 
+        $expectedWeights = [
+            '0' => [
+                '2' => 3.0472441618378,
+                '3' => -3.7054643380452
+            ],
+            '1' => [
+             '2' => -2.5961449172696,
+             '3' => 3.951078577457
+            ],
+            '2' => [
+             '4' => 2.6105699180982,
+             '5' => -4.730017947296
+            ],
+            '3' => [
+             '4' => -7.0441994420989,
+             '5' => 5.5300351551941
+            ],
+         ];
+ 
+         $this->assertEquals($expectedWeights, $network->getWeights());
+ 
+         $expectedBiasWeights = [
+             '0' => [
+                 '2' => 0.55162749854201,
+                 '3' => 0.32977328382385
+             ],
+             '1' => [
+              '4' => -0.085977993520736,
+              '5' => -2.7077995410221
+             ]
+          ];
+  
+         $this->assertEquals($expectedBiasWeights, $network->getBiasWeights());
+    }
+
     /**
      * Test it learns the OR function
      */
