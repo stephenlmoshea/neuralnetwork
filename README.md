@@ -10,7 +10,7 @@ Trained neural networks can be saved to file and loaded back for later activatio
 
 ## Installation
 ```bash
-$  composer require stephenlmoshea/neuralnetwork:dev-master
+$  composer require stephenlmoshea/neuralnetwork
 ```
 ## Examples
 ### Training XOR function on three layer neural network with two inputs and one output
